@@ -97,14 +97,16 @@ class Piece(tu.Turtle):
             d1_test = 0
             print(x_test, y_test)
             while board[y_test+d1_test][x_test-d1_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
-                print(x_test-d1_test,y_test+d1_test)
+                print(loop)
                 if d1_test == 3:
+                    print('if executed')
                     tu.bye()
                     os.system('clear')
                     print(f'{board[y_test][x_test].color.upper()} has won')
                     ti.sleep(2)
                     exit()
                 else:
+                    print('else executed')
                     d0_test += 1
         os.system('clear')       
 
