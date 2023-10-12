@@ -1,6 +1,7 @@
 import turtle as tu
 import itertools as tool
 import time as ti
+import os
 
 tu.hideturtle()
 tu.Screen().setup(1920,1080)
@@ -55,31 +56,57 @@ class Piece(tu.Turtle):
             pause = False
 
     def check_victory(self):
-        for x_test, y_test in tool.product(range(6), range(5)):
+        print('start')
+        for x_test, y_test in tool.product(range(4), range(6)):
             h_test = 0
-            v_test = 0
-            d_test = 0
             while board[y_test][x_test+h_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
                 if h_test == 3:
-                    print('winner')
                     tu.bye()
+                    os.system('clear')
+                    print(f'{board[y_test][x_test].color.upper()} has won')
+                    ti.sleep(2)
                     exit()
                 else:
                     h_test += 1
-            while board[y_test+v_test][x_test].color == board[y_test+v_test][x_test].color and board[y_test+v_test][x_test].color != 'white':
+        print('start1')
+        for x_test, y_test in tool.product(range(7), range(3)):
+            v_test = 0
+            while board[y_test+v_test][x_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
                 if v_test == 3:
-                    print('winner')
                     tu.bye()
+                    os.system('clear')
+                    print(f'{board[y_test][x_test].color.upper()} has won')
+                    ti.sleep(2)
                     exit()
                 else:
-                    v_test += 1   
-            while board[y_test+d_test][x_test+d_test].color == board[y_test+d_test][x_test+d_test].color and board[y_test+d_test][x_test+d_test].color != 'white':
-                if d_test == 3:
-                    print('winner')
+                    v_test += 1
+        print('start2')
+        for x_test, y_test in tool.product(range(4),range(3)):
+            d0_test = 0
+            while board[y_test+d0_test][x_test+d0_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
+                if d0_test == 3:
                     tu.bye()
+                    os.system('clear')
+                    print(f'{board[y_test][x_test].color.upper()} has won')
+                    ti.sleep(2)
                     exit()
                 else:
-                    d_test += 1         
+                    d0_test += 1  
+        print('start3') 
+        for x_test, y_test in tool.product(range(3,7), range(3)):
+            d1_test = 0
+            print(x_test, y_test)
+            while board[y_test+d1_test][x_test-d1_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
+                print(x_test-d1_test,y_test+d1_test)
+                if d1_test == 3:
+                    tu.bye()
+                    os.system('clear')
+                    print(f'{board[y_test][x_test].color.upper()} has won')
+                    ti.sleep(2)
+                    exit()
+                else:
+                    d0_test += 1
+        os.system('clear')       
 
     def right(self):
         if pause == False and self.coords[0] in [-1, 0, 1, 2, 3, 4]:
