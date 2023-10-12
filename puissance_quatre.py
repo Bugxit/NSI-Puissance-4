@@ -3,8 +3,10 @@ import itertools as tool
 import time as ti
 import os
 
+size = 1920/1366
+
 tu.hideturtle()
-tu.Screen().setup(1920,1080)
+tu.Screen().setup(1920/size,1080/size)
 canvas = tu.Screen().getcanvas()
 root = canvas.winfo_toplevel()
 root.overrideredirect(1)
@@ -20,21 +22,21 @@ class Piece(tu.Turtle):
 
     def draw_dot(self, temp_coords, current_color):
         self.color = current_color
-        self.goto(150*(temp_coords[0]-3), temp_coords[1])
+        self.goto(150*(temp_coords[0]-3)/size, temp_coords[1])
         self.clear()
-        self.dot(100, f'{self.color}')
+        self.dot(100/size, f'{self.color}')
         tu.Screen().update()
 
     def draw_piece(self):
         global drop_count, current_color
-        self.goto(150*(self.coords[0]-3), self.coords[1]*150-475)
+        self.goto(150*(self.coords[0]-3)/size, (self.coords[1]*150-475)/size)
         self.down()
         self.clear()
-        self.dot(100, f'{self.color}')
+        self.dot(100/size, f'{self.color}')
         if self == choose_piece and drop_count % 2 == 0:
-            self.dot(75, 'yellow')
+            self.dot(75/size, 'yellow')
         elif self == choose_piece:
-            self.dot(75, 'red')
+            self.dot(75/size, 'red')
 
     def drop_piece(self):
         global pause, drop_count, current_color
@@ -47,8 +49,8 @@ class Piece(tu.Turtle):
             else:
                 current_color = 'yellow'
             choose_piece.draw_piece()
-            for y in range(150*(6-height_rows[self.coords[0]])+25):
-                board[height_rows[self.coords[0]]][self.coords[0]].draw_dot((self.coords[0], 450-y), current_color)
+            for y in range(int(round((150*(6-height_rows[self.coords[0]])+25)/size))):
+                board[height_rows[self.coords[0]]][self.coords[0]].draw_dot((self.coords[0], (450-y)), current_color)
             board[height_rows[self.coords[0]]][self.coords[0]].color = current_color
             board[height_rows[self.coords[0]]][self.coords[0]].draw_piece()
             height_rows[self.coords[0]] += 1
@@ -56,59 +58,51 @@ class Piece(tu.Turtle):
             pause = False
 
     def check_victory(self):
-        print('start')
         for x_test, y_test in tool.product(range(4), range(6)):
             h_test = 0
             while board[y_test][x_test+h_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
                 if h_test == 3:
                     tu.bye()
-                    os.system('clear')
+                    os.system('cls')
                     print(f'{board[y_test][x_test].color.upper()} has won')
                     ti.sleep(2)
                     exit()
                 else:
                     h_test += 1
-        print('start1')
         for x_test, y_test in tool.product(range(7), range(3)):
             v_test = 0
             while board[y_test+v_test][x_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
                 if v_test == 3:
                     tu.bye()
-                    os.system('clear')
+                    os.system('cls')
                     print(f'{board[y_test][x_test].color.upper()} has won')
                     ti.sleep(2)
                     exit()
                 else:
                     v_test += 1
-        print('start2')
         for x_test, y_test in tool.product(range(4),range(3)):
             d0_test = 0
             while board[y_test+d0_test][x_test+d0_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
                 if d0_test == 3:
                     tu.bye()
-                    os.system('clear')
+                    os.system('cls')
                     print(f'{board[y_test][x_test].color.upper()} has won')
                     ti.sleep(2)
                     exit()
                 else:
                     d0_test += 1  
-        print('start3') 
         for x_test, y_test in tool.product(range(3,7), range(3)):
             d1_test = 0
-            print(x_test, y_test)
             while board[y_test+d1_test][x_test-d1_test].color == board[y_test][x_test].color and board[y_test][x_test].color != 'white':
-                print(loop)
                 if d1_test == 3:
-                    print('if executed')
                     tu.bye()
-                    os.system('clear')
+                    os.system('cls')
                     print(f'{board[y_test][x_test].color.upper()} has won')
                     ti.sleep(2)
                     exit()
                 else:
-                    print('else executed')
-                    d0_test += 1
-        os.system('clear')       
+                    d1_test += 1
+        os.system('cls')       
 
     def right(self):
         if pause == False and self.coords[0] in [-1, 0, 1, 2, 3, 4]:
