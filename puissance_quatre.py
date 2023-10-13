@@ -1,15 +1,14 @@
 import turtle as tu
+from tkinter import messagebox
 import itertools as tool
 import time as ti
 import os
 
-size = 1920/1366
+size = 1920/1920
 
 tu.hideturtle()
 tu.Screen().setup(1920/size,1080/size)
-canvas = tu.Screen().getcanvas()
-root = canvas.winfo_toplevel()
-root.overrideredirect(1)
+tu.Screen().getcanvas().winfo_toplevel().overrideredirect(1)
 tu.Screen().tracer(0)
 
 class Piece(tu.Turtle):
@@ -40,7 +39,7 @@ class Piece(tu.Turtle):
 
     def drop_piece(self):
         global pause, drop_count, current_color
-        if pause == False and height_rows[self.coords[0]] != 6:
+        if pause == False and self.coords[0] != -1 and height_rows[self.coords[0]] != 6:
             drop_count += 1
             pause = True
             board[height_rows[self.coords[0]]][self.coords[0]].draw_piece()
@@ -113,6 +112,16 @@ class Piece(tu.Turtle):
         if pause == False and self.coords[0] in [1, 2, 3, 4, 5]:
             self.coords[0] += -1
             self.draw_piece()
+
+def draw_board():
+    for i in [-1,1]:
+        tu.up()
+        tu.goto((i*525-(i+1)*75)/size, -540/size)
+        tu.seth(90)
+        tu.down()
+        tu.forward(900/size)
+
+draw_board()
     
 board = [[Piece([x,y], 'white') for x in range(7)] for y in range(6)]
 height_rows = [0 for x in range(7)]
